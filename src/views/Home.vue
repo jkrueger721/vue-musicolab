@@ -1,19 +1,26 @@
 <template lang="pug">
 div
-  div(v-for="project in ProjectStore.projects" :key="project.id") {{project.name}}
+  div(v-for="project in projects" :key="project.id") 
+    | {{project.name}} 
+    v-btn.mr-4(@click="editProject(project)") edit
+
 
 </template>
 
 <script>
-import { observer } from "mobx-vue";
 import { ProjectStore } from "@/store/ProjectStore.mobx";
 
-export default observer({
+export default {
   name: "Home",
-  data() {
-    return {
-      ProjectStore
-    };
+  fromMobx: {
+    ProjectStore
+  },
+  methods: {
+    editProject(project) {
+      console.log("editing proejct");
+      ProjectStore.currentProject = project;
+      this.$router.push("edit");
+    }
   }
-});
+};
 </script>
