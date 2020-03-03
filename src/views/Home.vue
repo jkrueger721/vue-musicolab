@@ -1,18 +1,19 @@
-<template>
-  <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png" />
-    <HelloWorld msg="Welcome to Your Vue.js App" />
-  </div>
+<template lang="pug">
+div
+  div(v-for="project in ProjectStore.projects" :key="project.id") {{project.name}}
+
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from "@/components/HelloWorld.vue";
+import { observer } from "mobx-vue";
+import { ProjectStore } from "@/store/ProjectStore.mobx";
 
-export default {
+export default observer({
   name: "Home",
-  components: {
-    HelloWorld
+  data() {
+    return {
+      ProjectStore
+    };
   }
-};
+});
 </script>
