@@ -2,21 +2,19 @@ import { observable, action } from "mobx";
 import { create } from "mobx-persist";
 import localForage from "localforage";
 
-interface FuckThisShitProject {
+interface TProject {
   name: string;
   style: string;
 }
 
-class Project implements FuckThisShitProject {
+class Project implements TProject {
   constructor(public readonly name: string, public readonly style: string) {}
 }
 
 class Store {
-  @observable
-  newProject = new Project("", "");
+  @observable newProject = new Project("", "");
 
-  @observable
-  currentProject = new Project("", "");
+  @observable currentProject = new Project("", "");
 
   @observable
   projects: Array<any> = [
@@ -36,6 +34,10 @@ class Store {
   resetProject() {
     this.newProject = new Project("", "");
   }
+  // @action
+  // updateProject() {
+
+  // }
 }
 
 const hydrate = create({

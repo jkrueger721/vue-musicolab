@@ -4,7 +4,6 @@
     <v-text-field v-model="newProject.style" label="Style"></v-text-field>
 
     <v-btn class="mr-4" @click="createNewProject()">submit</v-btn>
-    <!-- <v-btn @click="clear">clear</v-btn> -->
   </form>
 </template>
 <script>
