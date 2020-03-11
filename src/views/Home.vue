@@ -17,7 +17,7 @@ export default {
   },
   methods: {
     editProject(project) {
-      console.log("editing proejct");
+      console.log("editing " + this.project);
       ProjectStore.currentProject = project;
       this.$router.push("edit");
     }
