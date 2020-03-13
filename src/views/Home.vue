@@ -1,9 +1,10 @@
 <template lang="pug">
-div
-  div(v-for="project in projects" :key="project.id") 
-    | {{project.name}} 
-    v-btn.mr-4(@click="editProject(project)") edit
-    v-btn.mr-4(@click="deleteProject(project)") delete
+  div
+    v-btn.mr-4(@click="getAllProjects()") Projects
+    div(v-for="project in projects" :key="project.id") 
+      | {{project.name}} 
+      v-btn.mr-4(@click="editProject(project)") edit
+      v-btn.mr-4(@click="deleteProject(project)") delete
 
 
 </template>
@@ -22,6 +23,10 @@ export default {
       ProjectStore.currentProject = project;
       this.$router.push("edit");
     }
+
+    // beforeMount() {
+    //   window.addEventListener("load", ProjectStore.getAllProjects);
+    // }
   }
 };
 </script>

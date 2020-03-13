@@ -22,12 +22,12 @@ class Store {
   @observable currentProject = new Project(0, "", "");
 
   @observable
-  projects: Array<Project> = [
-    {
-      id: 1,
-      name: "Nate is cool",
-      style: "R&B"
-    }
+  projects: Array<any> = [
+    // {
+    // 	id: 1,
+    // 	name: 'Nate is cool',
+    // 	style: 'R&B'
+    // }
   ];
 
   @action
@@ -36,7 +36,30 @@ class Store {
     console.log(this.newProject);
     this.resetProject();
   }
+  @action
+  async getAllProjects() {
+    let p = await fetch(
+      "https://desolate-bayou-20758.herokuapp.com/api/projects",
+      {
+        mode: "no-cors"
+      }
+    );
 
+    p = await p.json();
+    this.projects.push({ p });
+  }
+  // getAllProjects() {
+  // 	fetch('https://desolate-bayou-20758.herokuapp.com/api/projects')
+  // 		.then((response) => {
+  // 			const p = response.json();
+  // 			this.projects.forEach((p) => {
+  // 				this.projects.push(p);
+  // 			});
+  // 		})
+  // 		.then((data) => {
+  // 			console.log(data);
+  // 		});
+  // }
   @action
   resetProject() {
     this.newProject = new Project(Math.random(), "", "");
@@ -52,7 +75,7 @@ class Store {
     console.log(this.currentProject);
   }
   @action
-  deleteProject(project) {
+  deleteProject(project: Project) {
     const p = project;
     this.projects = this.projects.filter(project => project !== p);
   }
