@@ -3,6 +3,7 @@ div
   div(v-for="project in projects" :key="project.id") 
     | {{project.name}} 
     v-btn.mr-4(@click="editProject(project)") edit
+    v-btn.mr-4(@click="deleteProject(project)") delete
 
 
 </template>
@@ -17,7 +18,7 @@ export default {
   },
   methods: {
     editProject(project) {
-      console.log("editing " + this.project);
+      console.log("editing " + project);
       ProjectStore.currentProject = project;
       this.$router.push("edit");
     }

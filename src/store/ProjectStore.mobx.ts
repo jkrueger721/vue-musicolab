@@ -22,7 +22,7 @@ class Store {
   @observable currentProject = new Project(0, "", "");
 
   @observable
-  projects: Array<any> = [
+  projects: Array<Project> = [
     {
       id: 1,
       name: "Nate is cool",
@@ -39,7 +39,7 @@ class Store {
 
   @action
   resetProject() {
-    this.newProject = new Project(0, "", "");
+    this.newProject = new Project(Math.random(), "", "");
   }
   @action
   findProject(id) {
@@ -47,13 +47,14 @@ class Store {
   }
   @action
   updateProject() {
-    // const p = this.findProject(this.currentProject.id);
-    // Object.assign(p, this.currentProject);
-    this.projects = this.projects.splice(
-      this.projects.indexOf(this.currentProject),
-      1,
-      this.currentProject
-    );
+    let p = this.findProject(this.currentProject.id);
+    p = this.currentProject;
+    console.log(this.currentProject);
+  }
+  @action
+  deleteProject(project) {
+    const p = project;
+    this.projects = this.projects.filter(project => project !== p);
   }
 }
 
@@ -65,5 +66,5 @@ const hydrate = create({
 });
 
 const ProjectStore = new Store();
-// hydrate("projectstore", ProjectStore);
+// hydrate('projectstore', ProjectStore);
 export { ProjectStore };
