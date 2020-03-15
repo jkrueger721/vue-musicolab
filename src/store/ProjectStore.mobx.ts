@@ -22,7 +22,7 @@ class Store {
   @observable currentProject = new Project(0, "", "");
 
   @observable
-  projects: Array<any> = [
+  projects: Array<Project> = [
     // {
     // 	id: 1,
     // 	name: 'Nate is cool',
@@ -39,33 +39,40 @@ class Store {
   @action
   async getAllProjects() {
     let p = await fetch(
-      "https://desolate-bayou-20758.herokuapp.com/api/projects",
+      "https://desolate-bayou-20758.herokuapp.com/api/projects/",
       {
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json"
+        },
+
         mode: "no-cors"
       }
     );
+    console.log(p.json());
 
     p = await p.json();
+    console.log(p);
     this.projects.push({ p });
   }
+  // @action
   // getAllProjects() {
-  // 	fetch('https://desolate-bayou-20758.herokuapp.com/api/projects')
-  // 		.then((response) => {
-  // 			const p = response.json();
-  // 			this.projects.forEach((p) => {
-  // 				this.projects.push(p);
-  // 			});
-  // 		})
-  // 		.then((data) => {
-  // 			console.log(data);
+  // 	fetch('https://desolate-bayou-20758.herokuapp.com/api/projects', {
+  // 		mode: 'no-cors'
+  // 	}).then((response) => {
+  // 		console.log(response.json());
+  // 		const p = response.json();
+  // 		this.projects.forEach(({ p }) => {
+  // 			this.projects.push({ p });
   // 		});
+  // 	});
   // }
   @action
   resetProject() {
     this.newProject = new Project(Math.random(), "", "");
   }
   @action
-  findProject(id) {
+  findProject(id: number) {
     return this.projects.find(v => v.id);
   }
   @action
