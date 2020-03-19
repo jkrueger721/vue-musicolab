@@ -52,35 +52,14 @@ class Store {
   async getAllProjects() {
     console.log("fetching...");
     let p = await fetch(
-      "https://desolate-bayou-20758.herokuapp.com/api/projects/",
-      {
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json"
-        },
-
-        mode: "no-cors"
-      }
+      "https://desolate-bayou-20758.herokuapp.com/api/projects/"
     );
-    const string = await p.text();
-
-    p = (await string) === "" ? {} : JSON.parse(string);
+    p = await p.json();
     console.log(p);
     this.projects.push({ p });
     console.log(this.projects[0]);
   }
-  // @action
-  // getAllProjects() {
-  // 	fetch('https://desolate-bayou-20758.herokuapp.com/api/projects', {
-  // 		mode: 'no-cors'
-  // 	}).then((response) => {
-  // 		console.log(response.json());
-  // 		const p = response.json();
-  // 		this.projects.forEach(({ p }) => {
-  // 			this.projects.push({ p });
-  // 		});
-  // 	});
-  // }
+
   @action
   resetProject() {
     this.newProject = new Project(Math.random(), "", false, "", "", "", "", "");
