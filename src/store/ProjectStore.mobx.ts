@@ -40,14 +40,7 @@ class Store {
 
   @observable currentProject = new Project(0, "", false, "", "", "", "", "");
 
-  @observable
-  projects: Array<Project> = [
-    // {
-    // 	id: 1,
-    // 	name: 'Nate is cool',
-    // 	style: 'R&B'
-    // }
-  ];
+  @observable projects: Array<any> = [];
 
   @action
   createNewProject() {
@@ -57,6 +50,7 @@ class Store {
   }
   @action
   async getAllProjects() {
+    console.log("fetching...");
     let p = await fetch(
       "https://desolate-bayou-20758.herokuapp.com/api/projects/",
       {
@@ -68,11 +62,12 @@ class Store {
         mode: "no-cors"
       }
     );
-    console.log(p.json());
+    const string = await p.text();
 
-    p = await p.json();
+    p = (await string) === "" ? {} : JSON.parse(string);
     console.log(p);
     this.projects.push({ p });
+    console.log(this.projects[0]);
   }
   // @action
   // getAllProjects() {
