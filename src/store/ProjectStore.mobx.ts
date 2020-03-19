@@ -50,14 +50,13 @@ class Store {
   }
   @action
   async getAllProjects() {
-    console.log("fetching...");
     let p = await fetch(
       "https://desolate-bayou-20758.herokuapp.com/api/projects/"
     );
     p = await p.json();
     console.log(p);
-    this.projects.push({ p });
-    console.log(this.projects[0]);
+    this.projects.push(p);
+    console.log(this.projects[22]);
   }
 
   @action
