@@ -55,7 +55,7 @@ class Store {
     );
     p = await p.json();
     console.log(p);
-    this.projects.push(p);
+    this.projects = p;
     console.log(this.projects[22]);
   }
 
