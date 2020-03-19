@@ -5,21 +5,40 @@ import localForage from "localforage";
 interface TProject {
   id: number;
   name: string;
+  isPrivate: boolean;
+  daw: string;
   style: string;
+  instruments: string;
+  comments: string;
+  audioUrl: string;
 }
 
 class Project implements TProject {
   constructor(
     public readonly id: number,
     public readonly name: string,
-    public readonly style: string
+    public readonly isPrivate: boolean,
+    public readonly style: string,
+    public readonly daw: string,
+    public readonly instruments: string,
+    public readonly comments: string,
+    public readonly audioUrl: string
   ) {}
 }
 
 class Store {
-  @observable newProject = new Project(Math.random(), "", "");
+  @observable newProject = new Project(
+    Math.random(),
+    "",
+    false,
+    "",
+    "",
+    "",
+    "",
+    ""
+  );
 
-  @observable currentProject = new Project(0, "", "");
+  @observable currentProject = new Project(0, "", false, "", "", "", "", "");
 
   @observable
   projects: Array<Project> = [
@@ -69,7 +88,7 @@ class Store {
   // }
   @action
   resetProject() {
-    this.newProject = new Project(Math.random(), "", "");
+    this.newProject = new Project(Math.random(), "", false, "", "", "", "", "");
   }
   @action
   findProject(id: number) {
