@@ -52,3 +52,8 @@ export default Vue.extend({
   })
 });
 </script>
+<style lang="scss">
+.main-content {
+  padding: 50px;
+}
+</style>

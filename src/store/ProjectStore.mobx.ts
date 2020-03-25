@@ -1,6 +1,7 @@
 import { observable, action } from "mobx";
 import { create } from "mobx-persist";
 import localForage from "localforage";
+import { Service } from "./service";
 
 interface TProject {
   id?: number;
@@ -26,24 +27,21 @@ class Store {
 
   @observable projects: TProject[] = [];
 
+  constructor() {
+    this.getAllProjects();
+  }
+
   @action
   async createNewProject() {
-    await fetch("http://localhost:64153/api/projects/", {
-      method: "POST",
+    const p = await Service.post("api/projects", this.newProject);
 
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({ Project: this.newProject, UserId: 1 })
-    });
     this.projects.push(this.newProject);
     console.log(this.newProject);
     this.resetProject();
   }
   @action
   async getAllProjects() {
-    const p = await fetch("http://localhost:64153/api/projects/");
-    const g = await p.json();
+    const g = await Service.get("api/projects");
     console.log(g);
     this.projects = g.map((v: Project) => new Project(v));
     console.log(this.projects[22]);
@@ -58,7 +56,12 @@ class Store {
     return this.projects.find(v => v.id);
   }
   @action
-  updateProject() {
+  async updateProject() {
+    const project = Service.put(
+      `api/projects/${this.currentProject.id}`,
+      this.currentProject
+    );
+    console.log("got project", project);
     let p = this.findProject(this.currentProject.id || 0);
     p = this.currentProject;
     console.log(this.currentProject);
