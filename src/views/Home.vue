@@ -1,6 +1,6 @@
 <template lang="pug">
   div
-    v-btn.mr-4(@click="getAllProjects()") Projects
+    //- v-btn.mr-4(@click="getAllProjects()") Projects
     div(v-for="project in projects" :key="project.id") 
       | {{project.name}} 
       v-btn.mr-4(@click="editProject(project)") edit
@@ -22,11 +22,8 @@ export default {
       console.log("editing " + project);
       ProjectStore.currentProject = project;
       this.$router.push("edit");
-    }
-
-    // beforeMount() {
-    //   window.addEventListener("load", ProjectStore.getAllProjects);
-    // }
+    },
+    created: ProjectStore.getAllProjects()
   }
 };
 </script>

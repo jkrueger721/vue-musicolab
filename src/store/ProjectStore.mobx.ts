@@ -3,65 +3,55 @@ import { create } from "mobx-persist";
 import localForage from "localforage";
 
 interface TProject {
-  id: number;
-  name: string;
-  isPrivate: boolean;
-  daw: string;
-  style: string;
-  instruments: string;
-  comments: string;
-  audioUrl: string;
+  id?: number;
+  name?: string;
+  isPrivate?: boolean;
+  daw?: string;
+  style?: string;
+  instruments?: string;
+  comments?: string;
+  audioUrl?: string;
 }
 
 class Project implements TProject {
-  constructor(
-    public readonly id: number,
-    public readonly name: string,
-    public readonly isPrivate: boolean,
-    public readonly style: string,
-    public readonly daw: string,
-    public readonly instruments: string,
-    public readonly comments: string,
-    public readonly audioUrl: string
-  ) {}
+  constructor(obj: TProject) {
+    Object.assign(this, obj);
+  }
 }
 
 class Store {
-  @observable newProject = new Project(
-    Math.random(),
-    "",
-    false,
-    "",
-    "",
-    "",
-    "",
-    ""
-  );
+  @observable newProject: TProject = new Project({});
 
-  @observable currentProject = new Project(0, "", false, "", "", "", "", "");
+  @observable currentProject: TProject = new Project({});
 
-  @observable projects: Array<any> = [];
+  @observable projects: TProject[] = [];
 
   @action
-  createNewProject() {
+  async createNewProject() {
+    await fetch("http://localhost:64153/api/projects/", {
+      method: "POST",
+
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ Project: this.newProject, UserId: 1 })
+    });
     this.projects.push(this.newProject);
     console.log(this.newProject);
     this.resetProject();
   }
   @action
   async getAllProjects() {
-    let p = await fetch(
-      "https://desolate-bayou-20758.herokuapp.com/api/projects/"
-    );
-    p = await p.json();
-    console.log(p);
-    this.projects = p;
+    const p = await fetch("http://localhost:64153/api/projects/");
+    const g = await p.json();
+    console.log(g);
+    this.projects = g.map((v: Project) => new Project(v));
     console.log(this.projects[22]);
   }
 
   @action
   resetProject() {
-    this.newProject = new Project(Math.random(), "", false, "", "", "", "", "");
+    this.newProject = new Project({});
   }
   @action
   findProject(id: number) {
@@ -69,12 +59,12 @@ class Store {
   }
   @action
   updateProject() {
-    let p = this.findProject(this.currentProject.id);
+    let p = this.findProject(this.currentProject.id || 0);
     p = this.currentProject;
     console.log(this.currentProject);
   }
   @action
-  deleteProject(project: Project) {
+  deleteProject(project: TProject) {
     const p = project;
     this.projects = this.projects.filter(project => project !== p);
   }
