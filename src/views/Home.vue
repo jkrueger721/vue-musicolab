@@ -26,6 +26,11 @@
             v-btn(color='blue darken-1' text='' @click='updateCurrentProject') Save
 
     //- v-btn.mr-4(@click="getAllProjects()") Projects
+    div.mb-6
+      router-link(to="/create")
+        v-btn(color="primary") 
+          v-icon(left size="16") fa fa-plus
+          | Create Project
     div(v-for="project in projects" :key="project.id") 
       | {{project.name}} 
       v-btn.mr-4(@click="editProject(project)") edit

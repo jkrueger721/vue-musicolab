@@ -38,4 +38,13 @@ export class Service {
     }
     return d;
   }
+  static async delete(url: string, id: number): Promise<any> {
+    let d;
+    try {
+      d = await ajax.delete(url + "/" + id);
+    } catch (e) {
+      d = { error: e };
+    }
+    return d;
+  }
 }

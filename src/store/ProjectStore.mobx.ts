@@ -35,7 +35,7 @@ class Store {
   async createNewProject() {
     const p = await Service.post("api/projects", this.newProject);
 
-    this.projects.push(this.newProject);
+    this.projects.push(p);
     console.log(this.newProject);
     this.resetProject();
   }
@@ -67,8 +67,9 @@ class Store {
     console.log(this.currentProject);
   }
   @action
-  deleteProject(project: TProject) {
+  async deleteProject(project: TProject) {
     const p = project;
+    await Service.delete("api/projects", p.id);
     this.projects = this.projects.filter(project => project !== p);
   }
 }
