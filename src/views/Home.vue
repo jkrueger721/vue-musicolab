@@ -43,14 +43,7 @@
     //-     v-text-field(v-model='search' append-icon='mdi-magnify' label='Search' single-line='' hide-details='')
     //-   v-data-table(:headers='headers' :items='projects' :search='search')
           
-
-    v-data-table.elevation-1(:headers="headers" :items="projects")
-          template(v-slot:top="")
-            v-toolbar(flat="" color="white")
-              v-toolbar-title Projects
-              v-divider.mx-4(inset="" vertical="")
-              v-spacer
-              //- v-dialog(v-model="dialog" max-width="500px")
+          //- v-dialog(v-model="dialog" max-width="500px")
               //-   template(v-slot:activator="{ on }")
               //-     v-btn.mb-2(color="primary" dark="" v-on="on") New Item
               //-   v-card
@@ -73,11 +66,10 @@
               //-       v-spacer
               //-       v-btn(color="blue darken-1" text="" @click="close") Cancel
               //-       v-btn(color="blue darken-1" text="" @click="save") Save
-              template(v-slot:methods="{ item }")
-                v-icon.mr-2(small="" @click="editProject(item)")
-                  | mdi-pencil
-                v-icon(small="" @click="deleteProject(item)")
-                  | mdi-delete
+    v-data-table.elevation-1(:headers="headers" :items="projects")       
+      template(v-slot:item.actions="{ item }")
+        v-icon.mr-2(small="" @click="editProject(item)") fas fa-edit
+        v-icon(small="" @click="deleteProject(item)") fas fa-trash
                   //- template(v-slot:no-data="")
                   //-   v-btn(color="primary" @click="initialize") Reset
 
@@ -103,7 +95,12 @@ export default {
         { text: "Daw", value: "daw" },
         { text: "Style", value: "style" },
         { text: "Instruments", value: "instrumments" },
-        { text: "Comments", value: "comments" }
+        { text: "Comments", value: "comments" },
+        {
+          text: "Action",
+          value: "actions",
+          sortable: false
+        }
       ],
       items: ProjectStore.projects,
       dialog: false
