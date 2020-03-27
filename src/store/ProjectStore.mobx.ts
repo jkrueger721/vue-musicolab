@@ -69,10 +69,9 @@ class Store {
   @action
   async deleteProject(project: TProject) {
     const p = project;
-    if (confirm("Are you sure you want to delete this item?")) {
-      await Service.delete("api/projects", p.id);
-      this.projects = this.projects.filter(project => project !== p);
-    }
+
+    await Service.delete("api/projects", p.id);
+    this.projects = this.projects.filter(project => project !== p);
   }
 }
 

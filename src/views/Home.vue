@@ -69,7 +69,7 @@
     v-data-table.elevation-1(:headers="headers" :items="projects")       
       template(v-slot:item.actions="{ item }")
         v-icon.mr-2(small="" @click="editProject(item)") fas fa-edit
-        v-icon(small="" @click="deleteProject(item)") fas fa-trash
+        v-icon(small="" @click="deleteProjectModal(item)") fas fa-trash
                   //- template(v-slot:no-data="")
                   //-   v-btn(color="primary" @click="initialize") Reset
 
@@ -78,11 +78,15 @@
 <script>
 import { ProjectStore } from "@/store/ProjectStore.mobx";
 import EditModal from "./modals/edit";
+import DeleteModal from "./modals/delete";
 
 export default {
   name: "Home",
   data() {
     return {
+      components: {
+        "delete-modal": DeleteModal
+      },
       search: "",
       headers: [
         {
@@ -106,6 +110,7 @@ export default {
       dialog: false
     };
   },
+
   fromMobx: {
     ProjectStore
   },
@@ -117,6 +122,10 @@ export default {
     updateCurrentProject() {
       this.dialog = false;
       this.updateProject();
+    },
+    deleteProjectModal(project) {
+      ProjectStore.currentProject = project;
+      DeleteModal.dialog = true;
     }
   }
 };
