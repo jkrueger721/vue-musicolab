@@ -1,5 +1,7 @@
 <template lang="pug">
   .main-content
+    DeleteModal
+
     form(ref='form')
       v-dialog(v-model='dialog' persistent='' max-width='600px')
         v-card
@@ -69,7 +71,7 @@
     v-data-table.elevation-1(:headers="headers" :items="projects")       
       template(v-slot:item.actions="{ item }")
         v-icon.mr-2(small="" @click="editProject(item)") fas fa-edit
-        v-icon(small="" @click="deleteProjectModal(item)") fas fa-trash
+        v-icon(small="" @click="deleteP(item)") fas fa-trash
                   //- template(v-slot:no-data="")
                   //-   v-btn(color="primary" @click="initialize") Reset
 
@@ -82,11 +84,11 @@ import DeleteModal from "./modals/delete";
 
 export default {
   name: "Home",
+  components: {
+    DeleteModal
+  },
   data() {
     return {
-      components: {
-        "delete-modal": DeleteModal
-      },
       search: "",
       headers: [
         {
@@ -123,9 +125,9 @@ export default {
       this.dialog = false;
       this.updateProject();
     },
-    deleteProjectModal(project) {
-      ProjectStore.currentProject = project;
-      DeleteModal.dialog = true;
+    deleteP(item) {
+      console.log("emit this...");
+      this.$emit("deleteProjectModal", item);
     }
   }
 };

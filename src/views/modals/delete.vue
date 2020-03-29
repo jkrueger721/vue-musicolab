@@ -13,7 +13,7 @@
             v-btn(color="green darken-1" text="" @click="deleteCurrentProject") Yes
 
 </template>
-<script lang="ts">
+<script>
 import { ProjectStore } from "@/store/ProjectStore.mobx";
 
 export default {
@@ -28,6 +28,11 @@ export default {
   methods: {
     deleteCurrentProject(project) {
       ProjectStore.deleteProject(project);
+    },
+    deleteProjectModal(project) {
+      console.log("im emitted!");
+      ProjectStore.currentProject = project;
+      this.dialog = true;
     }
   }
 };
