@@ -5,7 +5,7 @@ import { Service } from "./service";
 
 interface TProject {
   id?: number;
-  name?: string;
+  projectname?: string;
   isPrivate?: boolean;
   daw?: string;
   style?: string;
@@ -33,7 +33,7 @@ class Store {
 
   @action
   async createNewProject() {
-    const p = await Service.post("api/projects", this.newProject);
+    const p = await Service.post("project", this.newProject);
 
     this.projects.push(p);
     console.log(this.newProject);
@@ -41,7 +41,7 @@ class Store {
   }
   @action
   async getAllProjects() {
-    const g = await Service.get("api/projects");
+    const g = await Service.get("project");
     console.log(g);
     this.projects = g.map((v: Project) => new Project(v));
     console.log(this.projects[22]);
@@ -58,7 +58,7 @@ class Store {
   @action
   async updateProject() {
     const project = Service.put(
-      `api/projects/${this.currentProject.id}`,
+      `project/${this.currentProject.id}`,
       this.currentProject
     );
     console.log("got project", project);
@@ -69,8 +69,8 @@ class Store {
   @action
   async deleteProject(project: TProject) {
     const p = project;
-
-    await Service.delete("api/projects", p.id);
+    console.log(p);
+    await Service.delete("project", p.id);
     this.projects = this.projects.filter(project => project !== p);
   }
 }

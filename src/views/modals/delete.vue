@@ -1,8 +1,6 @@
 <template lang="pug">
     v-row(justify="center")
       v-dialog(v-model="dialog" persistent="" max-width="290")
-        template(v-slot:activator="{ on }")
-          v-btn(color="primary" dark="" v-on="on") Open Dialog
         v-card
           v-card-title.headline Are you sure you want to delete this project?
           v-card-text
@@ -17,22 +15,29 @@
 import { ProjectStore } from "@/store/ProjectStore.mobx";
 
 export default {
+  props: {
+    value: Boolean
+  },
+  computed: {
+    dialog: {
+      get() {
+        return this.value;
+      },
+      set(v) {
+        this.$emit("input", v);
+      }
+    }
+  },
   data() {
-    return {
-      dialog: false
-    };
+    return {};
   },
   fromMobx: {
     ProjectStore
   },
   methods: {
-    deleteCurrentProject(project) {
-      ProjectStore.deleteProject(project);
-    },
-    deleteProjectModal(project) {
-      console.log("im emitted!");
-      ProjectStore.currentProject = project;
-      this.dialog = true;
+    deleteCurrentProject() {
+      this.dialog = false;
+      this.$emit("deleteProject");
     }
   }
 };

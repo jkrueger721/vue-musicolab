@@ -1,12 +1,14 @@
-<template>
-  <div class="main-content">
-    <form>
-      <v-text-field v-model="newProject.name" label="Name"></v-text-field>
-      <v-text-field v-model="newProject.style" label="Style"></v-text-field>
+<template lang="pug">
+  
+ .main-content
+  form
+    v-text-field(v-model='newProject.projectname' label='Name')
+    v-text-field(v-model='newProject.style' label='Style')
+    v-text-field(v-model='newProject.instruments' label='Instruments')
+    v-text-field(v-model='newProject.daw' label='DAW')
+    v-text-field(v-model='newProject.audioUrl' label='Audio Url')
+    v-btn.mr-4(@click='createProject') submit
 
-      <v-btn class="mr-4" @click="createProject">submit</v-btn>
-    </form>
-  </div>
 </template>
 <script>
 import { ProjectStore } from "@/store/ProjectStore.mobx";

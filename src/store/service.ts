@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const ajax = axios.create();
-ajax.defaults.baseURL = "http://localhost:64153/";
+ajax.defaults.baseURL = "http://localhost:3000/";
 // ajax.defaults.baseURL = "https://desolate-bayou-20758.herokuapp.com/";
 ajax.defaults.headers.common["Content-Type"] = "application/json";
 
